@@ -3,6 +3,10 @@
 #include <ctime>
 using namespace std;
 
+/*В массиве А(N,M) расположить строки, стоящие после строки с первым
+максимальным элементом матрицы, в порядке возрастания количества
+чётных элементов в строке.*/
+
 void give_memory(int**&arr, int n, int m) {
 	arr = new (nothrow) int*[n];
 	for (int i = 0; i < n; ++i)
