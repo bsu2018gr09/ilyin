@@ -12,7 +12,7 @@ void give_memory(int**&arr, int n, int m) {
 	for (int i = 0; i < n; ++i)
 		arr[i] = new int[m];
 }
-void free_array(int **arr, int n, int) {
+void free_array(int **&arr, int n) {
 	for (int i = 0; i < n; ++i) {
 		delete[] arr[i];
 		arr[i] = nullptr;
@@ -95,5 +95,5 @@ int main()
 	print_array(arr, n, m);
 	homework2(arr, n, m);
 	print_array(arr, n, m);
-	free_array(arr, n, m);
+	free_array(arr, n);
 	}
