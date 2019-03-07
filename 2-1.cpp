@@ -96,4 +96,5 @@ int main()
 	homework2(arr, n, m);
 	print_array(arr, n, m);
 	free_array(arr, n);
+	system("pause");
 	}
