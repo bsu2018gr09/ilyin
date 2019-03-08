@@ -33,6 +33,7 @@ void giveMemory(int*&arr, int N) {
 }
 void freeMemory(int*&arr) {
 	delete[]arr;
+	arr=nullptr;
 }
 void printArray(int*arr, int N) {
 	for (int i{ 0 }; i < N; ++i) {
