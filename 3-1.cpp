@@ -20,24 +20,20 @@ int main()
   cin.getline(buf, MAX);
   inpstr = new (nothrow) char[strlen(buf) + 1]; if (!str) { cout << "No memory"; exit(1); }
   strcpy(inpstr, buf);
-  cout << strlen(inpstr) << '\n';
 
   int a = strlen(inpstr);
   int k{ 0 };
-  for (int i{ 0 }; i < strlen(str); ++i) {
-    if (str[i] == 32) {
+  for (int i{ 0 }; i <= strlen(str); ++i) {
+    if (str[i] == 32||!str[i]) {
       int c = (i - k);//в данный момент i = позиции конца слова
       if (c == a) {
-        cout << "Yes length";
         int d{ 0 };
         for (int j = k; j < i; ++j) {
-          if (str[j] == inpstr[d]) {
-            str[j] = str[d];
-          }
-          ++d;
+            str[j] = inpstr[d];
+            ++d;
         }
       }
-      k = i;
+      k = i+1;
     }
   }
   cout << str;
