@@ -57,5 +57,7 @@ int main()
   cout << str;
   delete[] str;
   delete[] inpstr;
+  str = nullptr;
+  inpstr = nullptr;
   return 0;
 }
