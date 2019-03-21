@@ -53,5 +53,7 @@ int main()
   input(inpstr);
   zad(str, inpstr);
   cout << str;
+  delete[] str;
+  delete[] inpstr;
   return 0;
 }
