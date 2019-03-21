@@ -49,7 +49,9 @@ int main()
   
   char *str=nullptr;
   char *inpstr= nullptr;
+  cout << "Введите строку, в которой хотите поменять слова: ";
   input(str);
+  cout << "Введите подстроку, на которую будем менять слова из начальной строки: ";
   input(inpstr);
   zad(str, inpstr);
   cout << str;
