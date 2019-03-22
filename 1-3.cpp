@@ -29,7 +29,7 @@ void initArrayRandom(int*arr, int N) {
 	}
 }
 void giveMemory(int*&arr, int N) {
-	arr = new int[N];
+	arr = new int[N]; if(!arr) { cout << "No memory"; exit(1); }
 }
 void freeMemory(int*&arr) {
 	delete[]arr;
