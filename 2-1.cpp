@@ -1,16 +1,15 @@
-#include "pch.h" 
-#include <iostream> 
-#include <ctime>
-using namespace std;
-
 /*В массиве А(N,M) расположить строки, стоящие после строки с первым
 максимальным элементом матрицы, в порядке возрастания количества
 чётных элементов в строке.*/
 
+#include <iostream> 
+#include <ctime>
+using namespace std;
+
 void give_memory(int**&arr, int n, int m) {
 	arr = new (nothrow) int*[n]; if(!arr) { cout << "No memory"; exit(1); }
 	for (int i = 0; i < n; ++i)
-		arr[i] = new int[m];//где if
+		arr[i] = new int[m]; if(!arr) { cout << "No memory"; exit(1); }
 }
 void free_array(int **&arr, int n) {
 	for (int i = 0; i < n; ++i) {
@@ -30,9 +29,10 @@ void print_array(int **arr, int n, int m) {
 }
 void init_array_random(int **arr, int n, int m) {
 	srand(time(NULL));
+	const int G=100;
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < m; ++j) {
-			arr[i][j] = rand() % 100 + 1;
+			arr[i][j] = rand() % G + 1;
 		}
 	}
 }
@@ -70,9 +70,9 @@ dalee:;
 	do { //сортировка нужных строк, метод - пузырьком
 		flag = false;
 		for (int i = n - 1; i > beg; i--) { //начинаю идти по массиву с конца
-			if (*(a2 + i) < *(a2 + i - 1)) {
-				swap(*(arr + i - 1), *(arr + i)); //меняю строки местами
-				swap(*(a2 + i - 1), *(a2 + i)); // меняю показатели в массиве a2[], который хранит количество четных элементов в строках
+			if (a2[i] < a2[i-1]) {
+				swap(arr[i - 1], arr[i]); //меняю строки местами
+				swap(a2[i - 1], a2[i]); // меняю показатели в массиве a2[], который хранит количество четных элементов в строках
 				flag = true;
 				cout << "swap" << i - 1 << " " << i << '\n';
 			}
