@@ -9,8 +9,8 @@ int main()
 	int N;
 	cout << "Введите количество точек: ";
 	cin >> N;
-	int *arrx = new int[N];
-	int *arry = new int[N];
+	int *arrx = new int[N];if(!arrx) { cout << "No memory"; exit(1); }
+	int *arry = new int[N];if(!arry) { cout << "No memory"; exit(1); }
 	srand(time(NULL));
 	for (int i{ 0 }; i < N; ++i) {//присвоение абсцисс
 		*(arrx + i) = rand() % 11;
