@@ -8,7 +8,7 @@ int* giveMemory(int N) {
 	pA = new(nothrow) int[N];
 	if (!pA) {
 		cout << "error";
-		return 0;
+		exit(1);
 	}
 	cout<<'\n';
 	return pA;
