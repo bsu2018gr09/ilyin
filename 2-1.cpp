@@ -8,7 +8,7 @@ using namespace std;
 чётных элементов в строке.*/
 
 void give_memory(int**&arr, int n, int m) {
-	arr = new (nothrow) int*[n];
+	arr = new (nothrow) int*[n]; if(!arr) { cout << "No memory"; exit(1); }
 	for (int i = 0; i < n; ++i)
 		arr[i] = new int[m];
 }
