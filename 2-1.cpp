@@ -10,7 +10,7 @@ using namespace std;
 void give_memory(int**&arr, int n, int m) {
 	arr = new (nothrow) int*[n]; if(!arr) { cout << "No memory"; exit(1); }
 	for (int i = 0; i < n; ++i)
-		arr[i] = new int[m];
+		arr[i] = new int[m];//где if
 }
 void free_array(int **&arr, int n) {
 	for (int i = 0; i < n; ++i) {
