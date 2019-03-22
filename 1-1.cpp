@@ -12,19 +12,20 @@ int main()
 	int *arrx = new int[N];if(!arrx) { cout << "No memory"; exit(1); }
 	int *arry = new int[N];if(!arry) { cout << "No memory"; exit(1); }
 	srand(time(NULL));
+	const int e = 11;
 	for (int i{ 0 }; i < N; ++i) {//присвоение абсцисс
-		*(arrx + i) = rand() % 11;
+		arrx[i] = rand() % e;
 	}
 	for (int i{ 0 }; i < N; ++i) {//присвоение ординат
-		*(arry + i) = rand() % 11;
+		arry[i] = rand() % e;
 	}
 
 	for (int i{ 0 }; i < N; ++i) {//просто вывод
-		cout << *(arrx + i) << " ";
+		cout << arrx[i] << " ";
 	}
 	cout << '\n';
 	for (int i{ 0 }; i < N; ++i) {//просто вывод
-		cout << *(arry + i) << " ";
+		cout << arry[i] << " ";
 	}
 	int a, b, c;
 	cout << '\n' << "Введите a,b,c, задающие уравнение прямой ax+by+c=0:";
