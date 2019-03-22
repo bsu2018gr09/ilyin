@@ -30,7 +30,7 @@ int main()
 	cout << '\n' << "Введите a,b,c, задающие уравнение прямой ax+by+c=0:";
 	cin >> a >> b >> c;
 	cout << '\n';
-	int *d = new int[N];
+	int *d = new int[N];if(!d) { cout << "No memory"; exit(1); }
 	for (int i{ 0 }; i < N; ++i) {
 		*(d + i) = (abs(a*arrx[i] + b * arry[i] + c) / sqrt(a*a + b * b)); //вычисление расстояния от точек до прямой
 	}
