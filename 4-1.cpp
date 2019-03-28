@@ -3,10 +3,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<fstream>
-#include <locale>
 using namespace std;
 const int MAX = 1000;
-int zad(char*str, char*inpstr) {
+int zad(char*str, char*inpstr) { //Заменяет в str слова, размером как inpstr и с цифрами на inpstr
   int a = strlen(inpstr);
   int k{ 0 };
   int countSwap{ 0 };
@@ -42,8 +41,6 @@ void input(char*&s) {
   strcpy(s, buf);
 }
 int main() {
-  setlocale(LC_CTYPE, "Russian");
-
   int N = 1000, M = 500;
 
   char **buff = new char*[M];
@@ -51,7 +48,7 @@ int main() {
     buff[i] = new char[M];
   }
 
-  ifstream source("C:\\date1.txt"); // отсюда читаем (поток типа ifstream= input file stream)
+  ifstream source("C:\\date1.txt"); 
   ofstream result("C:\\result.txt");
   if (!source) { cout << "No file d:\\date1.txt. Can't open\n"; exit(1); }
   if (!result) { cout << "No file d:\\result.txt. Can't create\n"; exit(1); }
@@ -76,10 +73,10 @@ int main() {
   bool flag;
   do { //сортировка нужных строк пузырьком
     flag = false;
-    for (int i = count - 1; i > 0; i--) { //начинаю идти по массиву с конца
+    for (int i = count - 1; i > 0; i--) { //начинает идти по массиву с конца
       if (c[i] < c[i - 1]) {
-        swap(buff[i - 1], buff[i]); //меняю строки местами
-        swap(c[i - 1], c[i]); // меняю показатели в массиве c[], который хранит количество замен в каждой строке
+        swap(buff[i - 1], buff[i]); //строки меняются местами
+        swap(c[i - 1], c[i]); // меняются показатели в массиве c[], который хранит количество замен в каждой строке
         flag = true;
       }
     }
