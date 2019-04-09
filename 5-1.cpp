@@ -1,63 +1,70 @@
-//горизонтальный градиент
+//Горизонтальный градиент
 #include<iostream>
-#include<fstream> 		                 // подключение библиотеки файлового ввода/вывода через потоки
+#include<fstream>  
+#include<clocale>
 using namespace std;
-struct color { unsigned char r; unsigned char g; unsigned char b; } c;
+struct color { unsigned char b; unsigned char g; unsigned char r; } c;
 
 int main() {
-  setlocale(LC_ALL, "Russian");
-  float kkk;
-  cout << sizeof(kkk);
-  ifstream fff("C:\\file.bmp", ios::binary); // ios::binary влияет ТОЛЬКО на endl. 
-  ofstream ggg("C:\\wrt.bmp", ios::binary);//сюда пишем (поток типа ofstream= output file stream) 
-  if (!fff) { cout << "No file C:\\file.bmp. Can't open\n"; exit(1); }
-  if (!ggg) { cout << "No file C:\\rez.bmp. Can't create\n"; exit(1); }
+  setlocale(LC_ALL, "RUS");
+  ifstream fff("C:\\file.bmp", ios::binary); //  ios::binary влияет ТОЛЬКО на endl.
+  ofstream ggg("C:\\wrt.bmp", ios::binary);//сюда пишем (поток типа ofstream= output file stream)
+  if (!fff) { cout << "No file d:\\1.bmp. Can't open\n"; exit(1); }
+  if (!ggg) { cout << "No file d:\\rez.bmp. Can't create\n"; exit(1); }
 
-  char buf[30];// куда читать байты 
-  unsigned char r, g, b;//компоненты цвета 
+  char buf[30];// куда читать байты
   color c;
-  unsigned int w, h;//надеемся. что тут 4 байта 
-
-  fff.read((char *)&buf, 18); //чтение 18 байт заголовка bmp 
-  ggg.write((char *)&buf, 18); //запись 18 байт заголовка bmp 
-  fff.read((char *)&w, 4); cout << "w=" << w; //чтение width из заголовка bmp 
-  fff.read((char *)&w, 4); cout << ", h=" << w; //чтение height из заголовка bmp 
-  w = 256; ggg.write((char *)&w, 4); //запись width в заголовок bmp ( w кратно 4, обязательно для нас, чтобы не делать выравнивание) 
-  h = 128; ggg.write((char *)&h, 4); //запись height в заголовок bmp 
-  fff.read((char *)&buf, 28); //чтение 28 байт заголовка bmp 
-  ggg.write((char *)&buf, 28); //запись 28 байт заголовка bmp 
+  unsigned int w, h;//надеемся. что тут 4 байта
+  fff.read((char *)&buf, 18);
+  ggg.write((char *)&buf, 18);
+  fff.read((char *)&w, 4);
+  fff.read((char *)&h, 4);
+  w = 1024; h = 400; //ввод ширины и высоты
+  ggg.write((char *)&w, 4);
+  ggg.write((char *)&h, 4);
+  fff.read((char *)&buf, 28);
+  ggg.write((char *)&buf, 28);
+  float step = 100; //вовд шага
+  if (step > w){
+    step = w;
+    cout << "Количество шагов больше ширины, поэтому произведена запись плавного градиента с количеством шагов, равным количеству пикселей по ширине.";
+  }
   
-  c.r = 255;//при изменении чисел появляются слева и внизу странные зеленые полосы в bmp
-  c.g = 255;
-  c.b = 255;
-  float rr = 0;
+  float begR = 255; //начальные значения цветов
+  float begG = 0;
+  float begB = 255;
+  float rr = 255; //конечные значения цветов
   float gg = 0;
   float bb = 0;
-  float step = 200;
-  float stepR = (rr - c.r) / step;
-  float stepG = (gg - c.g) / step;
-  float stepB = (bb - c.b) / step;
+  float stepR = (rr - begR) / step; //вычисление шагов для цветов
+  float stepG = (gg - begG) / step;
+  float stepB = (bb - begB) / step;
   int kk = 0;
-  float tmpR = c.r;
-  float tmpG = c.g;
-  float tmpB = c.b;
-  
-  for (int i{ 0 }; i < h; ++i) { //горизонтальный градиент, от переменной step зависит, смещение градиента вправо при увеличении в влево при уменьшении
-    for (int j{ 0 }; j < w; ++j) {
-      if (kk < step) {
-        tmpR += stepR;
-        tmpG += stepG;
-        tmpB += stepB;
-        c.r = (unsigned char)tmpR;
-        c.g = (unsigned char)tmpG;
-        c.b = (unsigned char)tmpB;
-        kk++;
+  float tmpR = begR; //для присвоения в каждой строке
+  float tmpG = begG;
+  float tmpB = begB;
+  int k = 0;
+  for (int i = 1; i <= h; ++i) {
+    for (int j = 1; j <= w; ++j) {
+      if (k >= step) { //за step шагов цвет меняется, после этого пишется конечный цвет
+        goto prod;
       }
-      ggg.write((char *)&c, 3);      
-    }    
-    tmpR = rr;
-    tmpG = gg;
-    tmpB = bb;
-    kk = 0;
+      tmpR += stepR;
+      tmpG += stepG;
+      tmpB += stepB;
+      k++;
+   prod:
+      c.r = tmpR;
+      c.g = tmpG;
+      c.b = tmpB;
+      ggg.write((char *)&c, 3);
+    }
+    tmpR = begR;
+    tmpG = begG;
+    tmpB = begB;
+    k = 0;
   }
- 
+  fff.close();
+  ggg.close();
+  system("pause");
+}
