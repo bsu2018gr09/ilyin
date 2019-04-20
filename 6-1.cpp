@@ -7,14 +7,14 @@ class Date {
 public:
   Date() {  };
   Date(int day, int month, int year) { cout << "3 par constructor\n";
-  r = true;
+  r = true;//что это??? 
   if (month > 12) { r = false; goto create; }
   if (month == 2 && day > 29) { r = false; goto create; }
   if (month == 2 && day == 29) { if (year % 4 != 0) { r = false; goto create; } }
   if ((month == 4 || month == 6 || month == 9 || month == 11) && (day > 30)) { r = false; goto create; }
 create:
   if (r==true) { d = day; m = month; y = year; }
-  else cout << "is not this date\n";
+  else cout << "is not this date\n"; // и ЧО???? Надо что то придумыыать
   };
   //Date(const Date &t) { cout << "copy constructor" << t.d << '\n'; } //конструктор копирования для передачи в функцию переменных Date
   ~Date() {  };
@@ -158,7 +158,7 @@ create:
           break;
         }
   }
-  void swap(Date d1, Date d2) { //почленная замена методом трех стаканов
+  void swap(Date d1, Date d2) { //почленная замена методом трех стаканов//зачем? Работает стандартный swap(d1,d2)
     int tmp;
     tmp = d1.y;
     d1.y = d2.y;
@@ -176,7 +176,7 @@ private:
   int d;
   int m;
   int y;
-  bool r;
+  bool r;//это ЧО???
 };
 std::ostream& operator<< (std::ostream &out, const Date &d)
 {
@@ -187,7 +187,7 @@ std::ostream& operator<< (std::ostream &out, const Date &d)
 std::istream& operator>> (std::istream &in, Date &da)
 {
 begIn:
-  da.r = true;
+  da.r = true;//этот код уже был. Раз повторяется стоит его вынести в отдельную функцию
   in >> da.d;
   in >> da.m;
   in >> da.y;
