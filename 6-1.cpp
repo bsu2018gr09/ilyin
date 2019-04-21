@@ -58,35 +58,20 @@ public:
     }
     return f;
   }
-  int operator-(Date t) {
-    int c[] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
-    int dif{ 0 };
-    Date max{ *this }, min{ t };
-    if (min > max) { swap(min, max); }
-    for (int i = min.y; i < max.y; ++i) {
-      if ((min.y+1) % 4 == 0) { dif += 366; }
-      else { dif += 365; }
-      min.y += 1;
-    }
-    if (max.y % 4 == 0)c[1] = 29;
-    if (max.m < min.m) {
-      swap(min, max);
-      for (int i = min.m; i < max.m; ++i) {
-        dif -= c[i - 1]; min.m += 1;
-      }
+  int operator-(Date t) { 
+    Date f,g; int i{ 0 };
+    if (*this < t) {
+      f = *this; g = t;
     }
     else {
-      for (int i = min.m; i < max.m; ++i) {
-        dif += c[i - 1]; min.m += 1;
-      }
+      f = t; g = *this;
     }
-    if (max.d > min.d) {
-      dif += (max.d - min.d);
+    if (*this == t)return 0;
+    while (f < g) {
+      i++;
+      f = f + 1;
     }
-    else {
-      dif -= (max.d - min.d);
-    }
-    return dif;
+    return i+1;
   }
   bool operator<(Date t) {
     if((y<t.y)||((y==t.y)&&(m<t.m))||((y==t.y)&&(m==t.m)&&(d<t.d))) return true;
