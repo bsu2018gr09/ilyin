@@ -8,11 +8,10 @@ public:
   Date() {  };
   Date(int day, int month, int year) { cout << "3 par constructor\n";
   r = true;//что это??? 
-  if (month > 12) { r = false; goto create; }
-  if (month == 2 && day > 29) { r = false; goto create; }
-  if (month == 2 && day == 29) { if (year % 4 != 0) { r = false; goto create; } }
-  if ((month == 4 || month == 6 || month == 9 || month == 11) && (day > 30)) { r = false; goto create; }
-create:
+  if (month > 12) { r = false; }
+  if (month == 2 && day > 29) { r = false; }
+  if (month == 2 && day == 29 && (year % 4 != 0||y%100==0)&&y%400!=0)  { r = false; }
+  if ((month == 4 || month == 6 || month == 9 || month == 11) && (day > 30)) { r = false; }
   if (r==true) { d = day; m = month; y = year; }
   else cout << "is not this date\n"; // и ЧО???? Надо что то придумыыать
   };
@@ -25,22 +24,38 @@ create:
   int getM() const { return m; }
   int getY() const { return y; }
   void operator=(Date const &t) { d = t.d; m = t.m; y = t.y; r = t.r; }
-  Date operator+(int t) { //пока что реализован переход только на следующий месяц, далее - в разработке
-    Date f;
+  Date operator+(int t) { //разработан усовершенствованный алгоритм для функции добавления некоторого заданного пользователем количества дней к текущей дате (левому операнду)
+    Date f = *this;
+    cout << f;
     int k;
     if (y % 4 == 0) k = 29; else k = 28;
     int c[] = {31,k,31,30,31,30,31,31,30,31,30,31};
-    if (d + t > c[m - 1]) {
-      if (m + 1 > 12) {
-        f.m = 1;
-        f.y = y + 1;;
-        goto dal;
+    int i{ 0 };
+    while (i < t)
+    {
+      if (i + c[f.m - 1] < t)
+      {
+        i += c[m - 1];
+        f.m++;
+        if (f.m > 12)
+        {
+          f.m = 1; f.y++;
+        }
       }
-      f.m = m + 1;
-      f.y = y;
-    dal:
-      f.d = d+t-c[m-1];
-     }
+      else
+      {
+        i++; f.d++;
+        if (f.d > f.howManyDaysInThisMonth())
+        {
+          f.m++;
+          if (f.m > 12)
+          {
+            f.m = 1; f.y++;
+          }
+          f.d = 1;
+        }
+      }
+    }
     return f;
   }
   int operator-(Date t) {
@@ -153,7 +168,7 @@ create:
         case 8:
         case 10:
         case 12: return 31; break;
-        case 2: if (y % 4 == 0)return 29; else return 28; break;
+        case 2: if ((y % 4 == 0&&y%100!=0)||y%400==0)return 29; else return 28; break;
         default: return 30;
           break;
         }
