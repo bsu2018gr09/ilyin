@@ -155,18 +155,6 @@ public:
           break;
         }
   }
-  void swap(Date d1, Date d2) { //почленная замена методом трех стаканов//зачем? Работает стандартный swap(d1,d2)
-    int tmp;
-    tmp = d1.y;
-    d1.y = d2.y;
-    d2.y = tmp;
-    tmp = d1.m;
-    d1.m = d2.m;
-    d2.m = tmp;
-    tmp = d1.d;
-    d1.d = d2.d;
-    d2.d = tmp;
-  }
   friend std::ostream& operator<< (std::ostream &out, const Date &d);
   friend std::istream& operator>> (std::istream &in, Date &d);
 private:
