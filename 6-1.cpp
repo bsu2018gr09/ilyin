@@ -7,7 +7,7 @@ class Date {
 public:
   Date() {  };
   Date(int day, int month, int year) { cout << "3 par constructor\n";
-  r = true;//что это??? 
+  bool r{ true };                                    
   if (month > 12) { r = false; }
   if (month == 2 && day > 29) { r = false; }
   if (month == 2 && day == 29 && (year % 4 != 0||y%100==0)&&y%400!=0)  { r = false; }
@@ -23,7 +23,7 @@ public:
   int getD() const { return d; }
   int getM() const { return m; }
   int getY() const { return y; }
-  void operator=(Date const &t) { d = t.d; m = t.m; y = t.y; r = t.r; }
+  void operator=(Date const &t) { d = t.d; m = t.m; y = t.y; }
   Date operator+(int t) { //разработан усовершенствованный алгоритм для функции добавления некоторого заданного пользователем количества дней к текущей дате (левому операнду)
     Date f = *this;
     cout << f;
@@ -83,7 +83,7 @@ public:
     else return false;
   }
   void print() const { //для удобства, можно использовать для вывода как "cout<<", так и (Date).print()
-    if (!r) { cout << "not corrected input\n"; return; }
+    if (!isOrNot()) { cout << "not corrected input\n"; return; }
     if (m > 9&&d>9) {
       cout << d << "." << m << "." << y << '\n';
     }
@@ -98,7 +98,7 @@ public:
     }
   }
   int dayOfWeek() const  { //реализация в отдельной функции высчитывания необходимого числа не имеет смысловой нагрузки, кроме той, что дни пронумерованы с 1 до 7 начиная с воскресенья
-    if (!r)return -32000;
+    if (!isOrNot())return -32000;
     int y1 = y / 100;
     int y2 = y % 100;
     int N;
@@ -155,13 +155,21 @@ public:
           break;
         }
   }
+  bool isOrNot() const {
+    bool r{ true };
+    if (d > 31) { r = false; }
+    if (m > 12) { r = false; }
+    if (m == 2 && d > 29) { r = false; }
+    if (m == 2 && d == 29 && (y % 4 != 0 || y % 100 == 0) && y % 400 != 0) { r = false; }
+    if ((m == 4 || m == 6 || m==9 || m == 11) && (d > 30)) { r = false; }
+    return r;
+  }
   friend std::ostream& operator<< (std::ostream &out, const Date &d);
   friend std::istream& operator>> (std::istream &in, Date &d);
 private:
   int d;
   int m;
-  int y;
-  bool r;//это ЧО???
+  int y; //убрал "интересный" булевский элемент класса)
 };
 std::ostream& operator<< (std::ostream &out, const Date &d)
 {
@@ -172,21 +180,18 @@ std::ostream& operator<< (std::ostream &out, const Date &d)
 std::istream& operator>> (std::istream &in, Date &da)
 {
 begIn:
-  da.r = true;//этот код уже был. Раз повторяется стоит его вынести в отдельную функцию
+  bool r{ true };//вынес код проверки на существование в отдельную функцию
   in >> da.d;
   in >> da.m;
   in >> da.y;
-  if (da.m > 12) { da.r = false; }
-  if (da.m == 2 && da.d > 29) { da.r = false; }
-  if (da.m == 2 && da.d == 29) { if (da.y % 4 != 0) { da.r = false;  } }
-  if ((da.m == 4 || da.m == 6 || da.m || da.m == 11) && (da.d > 30)) { da.r = false; }
-  if (da.r == false) { cout << "not corrected input, please, enter date again\n"; goto begIn; }
+  if (!da.isOrNot()) { cout << "not corrected input, please, enter date again\n"; goto begIn; }
   return in;
 }
 int main() {
   Date me(20, 12, 2000), mo(23,11,2001), my;
-  my = mo+30;
-  cout << my << me;
+  my = mo+3000;
+  cout<<my-mo<<'\n';
+  cout << my << me<<'\n';
   Date *no = new Date(15, 05, 1997);
   Date*fff = &my;
   cout << *fff;
