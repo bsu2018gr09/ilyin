@@ -27,15 +27,12 @@ public:
   Date operator+(int t) { //разработан усовершенствованный алгоритм для функции добавления некоторого заданного пользователем количества дней к текущей дате (левому операнду)
     Date f = *this;
     cout << f;
-    int k;
-    if (y % 4 == 0) k = 29; else k = 28;
-    int c[] = {31,k,31,30,31,30,31,31,30,31,30,31};
     int i{ 0 };
     while (i < t)
     {
-      if (i + c[f.m - 1] < t)
+      if (i + f.howManyDaysInThisMonth() < t)
       {
-        i += c[m - 1];
+        i += f.howManyDaysInThisMonth();
         f.m++;
         if (f.m > 12)
         {
