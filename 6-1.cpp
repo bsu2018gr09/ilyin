@@ -13,7 +13,7 @@ public:
   if (month == 2 && day == 29 && (year % 4 != 0||y%100==0)&&y%400!=0)  { r = false; }
   if ((month == 4 || month == 6 || month == 9 || month == 11) && (day > 30)) { r = false; }
   if (r==true) { d = day; m = month; y = year; }
-  else cout << "is not this date\n"; // и ЧО???? Надо что то придумыыать
+  else { cerr << "is not this date\n"; }// и ЧО???? Надо что то придумыыать
   };
   //Date(const Date &t) { cout << "copy constructor" << t.d << '\n'; } //конструктор копирования для передачи в функцию переменных Date
   ~Date() {  };
