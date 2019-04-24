@@ -4,7 +4,7 @@
 using namespace std;
 
 class Date {
-public:
+public:// не вижу great 4!!!!! только 3
   Date() {  };
   Date(int day, int month, int year) { cout << "3 par constructor\n";
   bool r{ true };                                    
@@ -25,7 +25,7 @@ public:
   int getY() const { return y; }
   void operator=(Date const &t) { d = t.d; m = t.m; y = t.y; }
   Date operator+(int t) { //разработан усовершенствованный алгоритм для функции добавления некоторого заданного пользователем количества дней к текущей дате (левому операнду)
-    Date f = *this;
+    Date f = *this;// не волнуешься как это работает? Кто делал это присваивание? Разве ты????
     cout << f;
     int i{ 0 };
     while (i < t)
@@ -140,7 +140,7 @@ public:
     default: cout << "error\n"; break;
     }
   }
-  int howManyDaysInThisMonth(Date &d) { 
+  int howManyDaysInThisMonth(Date &d) { // public???? А зачем????
     switch (d.m)
         {
         case 1:
@@ -155,7 +155,7 @@ public:
           break;
         }
   }
-  bool isOrNot() const {
+  bool isOrNot() const {// public???? А зачем????
     bool r{ true };
     if (d > 31) { r = false; }
     if (m > 12) { r = false; }
