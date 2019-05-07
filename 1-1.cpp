@@ -3,7 +3,7 @@
 #include <ctime>
 using namespace std;
 
-int main()
+int main()// всё в main. Прозор (((
 {
 	setlocale(LC_ALL, "Russian");
 	int N;
