@@ -44,7 +44,7 @@ int main() {
   int N = 1000, M = 500;
 
   char **buff = new char*[M];
-  for (int i = 0; i < N; ++i) {
+  for (int i = 0; i < N; ++i) {// и это работало???? Не вылетало ошибок?????? Несмотря на N
     buff[i] = new char[M];
   }
 
