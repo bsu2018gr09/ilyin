@@ -45,7 +45,7 @@ void sortNegativNumbers(int *pA, int N) {
 		for (int i = 0; i < N; ++i) {
 			if (*(pA + i) < *(pA + i + 1))
 				if (*(pA + i + 1) <= 0)
-					swap(*(pA + i), *(pA + i + 1));
+					swap(*(pA + i), *(pA + i + 1));//никакой оптимизации
 		}
 	cout<<'\n';
 }
