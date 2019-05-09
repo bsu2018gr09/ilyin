@@ -4,7 +4,7 @@
 using namespace std;
 
 class Date {
-public:// не вижу great 4!!!!! только 3
+public:// не вижу great 4!!!!! только 3 - теперь 4
   Date() {  };
   Date(int day, int month, int year) { cout << "3 par constructor\n";
   bool r{ true };                                    
@@ -13,19 +13,38 @@ public:// не вижу great 4!!!!! только 3
   if (month == 2 && day == 29 && (year % 4 != 0||y%100==0)&&y%400!=0)  { r = false; }
   if ((month == 4 || month == 6 || month == 9 || month == 11) && (day > 30)) { r = false; }
   if (r==true) { d = day; m = month; y = year; }
-  else { cerr << "is not this date\n"; }// и ЧО???? Надо что то придумыыать
+  else {
+    cerr << "it's not corrected date. All data swap to 0\n"; d = 0; m = 0; y = 0;
+  }
   };
-  //Date(const Date &t) { cout << "copy constructor" << t.d << '\n'; } //конструктор копирования для передачи в функцию переменных Date
+  Date(const Date &t) {
+    //cout << "copy constructor for " << t.d << '\n';
+    this->d = t.d;
+    this->m = t.m;
+    this->y = t.y;
+  };
   ~Date() {  };
-  void setD(int day) { d = day; }
-  void setM(int month) { m=month; }
-  void setY(int year) { y=year; }
+  void setD(int day) {
+    bool r = isOrNot(day, m, y);
+    if (r) {
+      d = day; return;
+    }
+    else { cout << "date is not edit\n"; return; }
+  }
+  void setM(int month) { bool r = isOrNot(d, month, y);
+  if (r) { m = month; return; }
+  else { cout << "date is not edit\n"; return; }
+  }
+  void setY(int year) { bool r = isOrNot(d, m, year);
+  if (r) { y = year; return; }
+  else{ cout << "date is not edit\n"; return; }
+  }
   int getD() const { return d; }
   int getM() const { return m; }
   int getY() const { return y; }
   void operator=(Date const &t) { d = t.d; m = t.m; y = t.y; }
   Date operator+(int t) { //разработан усовершенствованный алгоритм для функции добавления некоторого заданного пользователем количества дней к текущей дате (левому операнду)
-    Date f = *this;// не волнуешься как это работает? Кто делал это присваивание? Разве ты????
+    Date f = *this;// не волнуешься как это работает? Кто делал это присваивание? Разве ты???? - не понял вопроса
     cout << f;
     int i{ 0 };
     while (i < t)
@@ -140,7 +159,22 @@ public:// не вижу great 4!!!!! только 3
     default: cout << "error\n"; break;
     }
   }
-  int howManyDaysInThisMonth(Date &d) { // public???? А зачем????
+  bool isOrNot(int da,int mo,int ye)  {
+  bool r{ true };
+  if (da > 31) { r = false; }
+  if (mo > 12) { r = false; }
+  if (mo == 2 && da > 29) { r = false; }
+  if (mo == 2 && da == 29 && (ye % 4 != 0 || ye % 100 == 0) && ye % 400 != 0) { r = false; }
+  if ((mo == 4 || mo == 6 || mo == 9 || mo == 11) && (da > 30)) { r = false; }
+  return r;
+}
+  friend std::ostream& operator<< (std::ostream &out, const Date &d);
+  friend std::istream& operator>> (std::istream &in, Date &d);
+private:
+  int d;
+  int m;
+  int y; 
+  int howManyDaysInThisMonth(Date &d) { 
     switch (d.m)
         {
         case 1:
@@ -155,7 +189,7 @@ public:// не вижу great 4!!!!! только 3
           break;
         }
   }
-  bool isOrNot() const {// public???? А зачем????
+  bool isOrNot() const {
     bool r{ true };
     if (d > 31) { r = false; }
     if (m > 12) { r = false; }
@@ -164,12 +198,6 @@ public:// не вижу great 4!!!!! только 3
     if ((m == 4 || m == 6 || m==9 || m == 11) && (d > 30)) { r = false; }
     return r;
   }
-  friend std::ostream& operator<< (std::ostream &out, const Date &d);
-  friend std::istream& operator>> (std::istream &in, Date &d);
-private:
-  int d;
-  int m;
-  int y; //убрал "интересный" булевский элемент класса)
 };
 std::ostream& operator<< (std::ostream &out, const Date &d)
 {
