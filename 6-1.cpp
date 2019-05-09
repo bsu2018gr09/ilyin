@@ -45,7 +45,6 @@ public:// не вижу great 4!!!!! только 3 - теперь 4
   void operator=(Date const &t) { d = t.d; m = t.m; y = t.y; }
   Date operator+(int t) { //разработан усовершенствованный алгоритм для функции добавления некоторого заданного пользователем количества дней к текущей дате (левому операнду)
     Date f = *this;// не волнуешься как это работает? Кто делал это присваивание? Разве ты???? - не понял вопроса
-    cout << f;
     int i{ 0 };
     while (i < t)
     {
@@ -87,7 +86,7 @@ public:// не вижу great 4!!!!! только 3 - теперь 4
       i++;
       f = f + 1;
     }
-    return i+1;
+    return i;
   }
   bool operator<(Date t) {
     if((y<t.y)||((y==t.y)&&(m<t.m))||((y==t.y)&&(m==t.m)&&(d<t.d))) return true;
@@ -174,8 +173,8 @@ private:
   int d;
   int m;
   int y; 
-  int howManyDaysInThisMonth(Date &d) { 
-    switch (d.m)
+  int howManyDaysInThisMonth() { 
+    switch (m)
         {
         case 1:
         case 3:
