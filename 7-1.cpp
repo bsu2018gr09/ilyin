@@ -605,5 +605,6 @@ double averageGoalsInMatch(Footballer*arr) {
 
 int main()
 {
+  //меню будет добавлено в ближайшее время
   system("pause");
 }
