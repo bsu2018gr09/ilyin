@@ -106,6 +106,7 @@ public:
     return *this;
   }
 
+
   friend std::ostream& operator<< (std::ostream &out, const Footballer &);
   friend std::istream& operator>> (std::istream &in, Footballer &);
   friend Footballer createFootballer(const char[20], const char[20], short, short, short, short);
@@ -209,6 +210,9 @@ Footballer createFootballer(const char Name[20], const char Team[20], short Age,
 }
 Footballer*createArrayFootballers(int N) {
   Footballer*arr = new Footballer[N];
+  for (int i{ 0 }; i < N; ++i) {
+    cin >> arr[i];
+  }
   return arr;
 }
 Footballer editName(Footballer &footballer) {
@@ -546,6 +550,23 @@ Footballer*sortByName(Footballer*arr) {
   }
   return arr;
 }
+Footballer*sortByTeam(Footballer*arr) {
+  int size = *((size_t *)arr - 1);
+  Footballer tmp;
+  for (int i = 0; i < size - 1; ++i) // i - номер прохода
+  {
+    for (int j = 0; j < size - 1; ++j) // внутренний цикл прохода
+    {
+      if (strcmp(arr[j + 1].getTeam(), arr[j].getTeam()) < 0)
+      {
+        tmp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = tmp;
+      }
+    }
+  }
+  return arr;
+}
 
 Footballer*howJoung(Footballer*arr, int a) {
   int N = *((size_t *)arr - 1);
@@ -605,6 +626,86 @@ double averageGoalsInMatch(Footballer*arr) {
 
 int main()
 {
-  //меню будет добавлено в ближайшее время
+  setlocale(LC_ALL, "Rus");
+  Footballer*array = nullptr;
+begin:
+  cout << "ДОБРО ПОЖАЛОВАТЬ!\nДля продолжения работы выберите один из вариантов, представленных ниже.\n1.Взять массив из исходного файла\n2.Ввести свой путь к файлу";
+  short a;
+  cin >> a;
+  switch (a) {
+  case 1: {
+    array = readFromFile("C:\\Users\\ilyin\\prog\\footballers.txt"); break;
+  }
+  case 2: {
+    char way[40];
+    cin >> way;
+    array = readFromFile(way);
+  }
+  default: break;
+  }
+  while (1) {
+    cout << "0.Вернуться к предыдущему шагу\n1.Вывести список футболистов в текущем списке\n2.Отсортировать список футболистов\n3.Выбрать игроков из введенной команды\n4.Посчитать среднее количество голов за матч\n";
+    cin >> a;
+    switch (a)
+    {
+    case 0: {
+      goto begin;
+      break;
+    }
+    case 1: {
+      cout << array; break;
+    }
+    case 2: {
+      cout << "По какому принципу отсортировать текущий список футболистов?\n1.По именам (в алфавитном порядке)\n2.По командам (в алфавитом порядке)\n3.По количеству забитых голов\n4. по количеству голевых передач\n5. По количеству сыгранных в текущем сезоне матчей\n6.По возрасту\n";
+      short b;
+      cin >> b;
+      switch (b)
+      {
+      case 1:
+        sortByName(array); break;
+      case 2:
+        sortByTeam(array); break;
+      case 3:
+        sortByGoals(array); break;
+      case 4:
+        sortByAssists(array); break;
+      case 5:
+        sortByGames(array); break;
+      case 6:
+        sortByAge(array); break;
+      default:
+        break;
+      }
+      break;
+    case 3: {
+      char Team[20];
+      cin >> Team;
+      cout<<getTeam(array, Team)<<'\n';
+      break;
+    }
+    case 4: {
+      cout << "1.В текущем списке\n2.В введенной команде из текущего списка\n";
+      short d;
+      cin >> d;
+      switch (d)
+      {
+      case 1: {
+        cout<<averageGoalsInMatch(array)<<'\n';
+        break;
+      }
+      case 2: {
+        char Team1[20];
+        cin >> Team1;
+        cout<<averageGoalsInMatch(array, Team1)<<'\n';
+      }
+      default:
+        break;
+      }
+    } break;
+    }
+    default:
+      break;
+    }
+  }
   system("pause");
 }
