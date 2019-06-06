@@ -7,6 +7,18 @@
 #include "Header.h"
 using namespace std;
 
+int charToInt(char a) {
+	return (a - 48);
+}
+int charToInt(const char*a) {
+	int p = strlen(a);
+	int c{ 0 };
+	for (int i{ 0 }; i < p; ++i) {
+		c += pow(10, i)*charToInt(*(a + p - i - 1));
+	}
+	return c;
+}
+
 class Footballer {
 private:
   char* name;
