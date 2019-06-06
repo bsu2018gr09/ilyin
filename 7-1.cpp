@@ -4,19 +4,8 @@
 #include <fstream>
 #include <cstdio>
 #include <string>
+#include "Header.h"
 using namespace std;
-
-int charToInt(char a) {
-  return (a - 48);
-}
-int charToInt(const char*a) {
-  int p = strlen(a);
-  int c{ 0 };
-  for (int i{ 0 }; i < p; ++i) {
-    c += pow(10, i)*charToInt(*(a + p - i - 1));
-  }
-  return c;
-}
 
 class Footballer {
 private:
@@ -84,10 +73,9 @@ public:
   }
 
   void print() const {
-    if (!name || !team) goto end;
+    if (!name || !team) return;
     cout.setf(ios::left);
     cout << setw(20) << name << "|" << setw(20) << team << "|" << setw(5) << age << "|" << setw(5) << games << "|" << setw(5) << goals << "|" << setw(5) << assists << "|";
-  end:;
   }
 
   Footballer& operator=(Footballer &footballer) {
@@ -134,12 +122,9 @@ int sizeArr(Footballer*arr) {
 }
 
 bool operator==(Footballer&footballer1, Footballer&footballer2) {
-  if ((!strcmp(footballer1.getName(), footballer2.getName())) && (!strcmp(footballer1.getTeam(), footballer2.getTeam())) && (footballer1.getAge() == footballer2.getAge()) && (footballer1.getGames() == footballer2.getGames()) && (footballer1.getGoals() == footballer2.getGoals()) && (footballer1.getAssists() == footballer2.getAssists())) {
-    return true;
-  }
-  else {
-    return false;
-  }
+  
+    return (!strcmp(footballer1.getName(), footballer2.getName())) && (!strcmp(footballer1.getTeam(), footballer2.getTeam())) && (footballer1.getAge() == footballer2.getAge()) && (footballer1.getGames() == footballer2.getGames()) && (footballer1.getGoals() == footballer2.getGoals()) && (footballer1.getAssists() == footballer2.getAssists());
+  
 }
 
 std::ostream& operator<< (std::ostream &out, const Footballer &footballer)
@@ -357,6 +342,20 @@ Footballer editFootballer(Footballer&footballer, const char Name[20], const char
   editAssists(footballer, Assists);
   return footballer;
 }
+Footballer editFootballer(Footballer&footballer) {
+	cout<<"Что менять?\n";
+	char w[7]; cin >> w;
+	cout << "На что менять?\n";
+	char tw[20];
+	cin >> tw;
+	if (strlen(tw) > 2) {
+		editFootballer(footballer, w, tw);
+	}
+	else {
+		editFootballer(footballer, w, charToInt(tw));
+	}
+	return footballer;
+}
 
 int howFromTeam(Footballer*arr, const char Team[20]) {
   int sizeArray = sizeArr(arr);
@@ -421,6 +420,7 @@ Footballer*writeToFile(const char way[40], Footballer*arr, int N) {
   }
   return arr;
 }
+//чтение и запись в binary-файле
 
 Footballer*getTeam(Footballer*arr, const char Team[20], int c) {
   //arr - массив, откуда берется выборка игроков одной команды
@@ -567,6 +567,8 @@ Footballer*sortByTeam(Footballer*arr) {
   }
   return arr;
 }
+//нормально сделать сортировки
+//сделать одну фунцию сортировки вместо всех
 
 Footballer*howJoung(Footballer*arr, int a) {
   int N = *((size_t *)arr - 1);
@@ -644,7 +646,7 @@ begin:
   default: break;
   }
   while (1) {
-    cout << "0.Вернуться к предыдущему шагу\n1.Вывести список футболистов в текущем списке\n2.Отсортировать список футболистов\n3.Выбрать игроков из введенной команды\n4.Посчитать среднее количество голов за матч\n";
+    cout << "0.Вернуться к предыдущему шагу\n1.Вывести список футболистов в текущем списке\n2.Отсортировать список футболистов\n3.Выбрать игроков из введенной команды\n4.Посчитать среднее количество голов за матч\n5.Изменить игрока в файле\n";
     cin >> a;
     switch (a)
     {
@@ -703,9 +705,26 @@ begin:
       }
     } break;
     }
+	case 5: {
+		cout << "Кого редактировать?\n";
+		char n[20];
+		cin >> n;
+		char r[20];
+		for (int i{ 0 }; i < sizeArr(array); ++i) {
+			strcpy(r, array[i].getName());
+			if (!strcmp(r, n)) {
+				editFootballer(array[i]);
+				break;
+			}
+		}
+		break;
+	}
     default:
       break;
     }
   }
+  //сделать выход
+  //реализовать изменение объектов в файле
   system("pause");
 }
+
